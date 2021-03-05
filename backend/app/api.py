@@ -21,11 +21,11 @@ app.add_middleware(
 todos = [
     {
         "id": "1",
-        "item": "Read a book."
+        "item": "Read some books."
     },
     {
         "id": "2",
-        "item": "Cycle around town."
+        "item": "Sleep until noon."
     }
 ]
 
@@ -33,11 +33,18 @@ todos = [
 async def read_root() -> str:
     return "Welcome to your TODO list"
 
-@app.get("/todo", tags=["todos"])
+@app.get("/todos", tags=["todos"])
 async def get_todos():
     return todos
 
-@app.post("/todo", tags=["todos"], status_code=201)
+@app.get("/todos/{id}", tags=["todos"])
+async def get_todo(id: int):
+    for todo in todos:
+        if int(todo["id"]) == id:
+            return todo
+    raise HTTPException(status_code=404, detail=f"Todo with id {id} not found.")
+
+@app.post("/todos", tags=["todos"], status_code=201)
 async def add_todo(item: str):
     id = len(todos) + 1 
     todo = {"id": str(id),
@@ -45,7 +52,7 @@ async def add_todo(item: str):
     todos.append(todo)
     return todo
 
-@app.put("/todo/{id}", tags=["todos"])
+@app.put("/todos/{id}", tags=["todos"])
 async def update_todo(id: int, item: str):
     for todo in todos:
         if int(todo["id"]) == id:
@@ -53,7 +60,7 @@ async def update_todo(id: int, item: str):
             return f"Todo with id {id} has been updated."
     raise HTTPException(status_code=404, detail=f"Todo with id {id} not found.")  
 
-@app.delete("/todo/{id}", tags=["todos"])
+@app.delete("/todos/{id}", tags=["todos"])
 async def delete_todo(id: int):
     for todo in todos:
         if int(todo["id"]) == id:
