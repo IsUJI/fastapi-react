@@ -1,9 +1,9 @@
-import React, { Component } from "react";
+import React from "react";
 import axios from 'axios';
 import { TextField } from '@material-ui/core';
 
   
-export default class extends Component {
+export default class AddTodo extends React.Component {
 
     state = {
       item: '',
@@ -18,7 +18,7 @@ export default class extends Component {
         item: this.state.item
       }
     
-      axios.post(`http://localhost:8000/todo`, {}, { params:
+      axios.post(`http://localhost:8000/todos`, {}, { params:
         item,
       })
       .then(res => res.status)
