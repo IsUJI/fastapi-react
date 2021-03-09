@@ -1,42 +1,40 @@
-import React from "react";
+import React, { useState } from "react";
 import axios from 'axios';
 import { TextField } from '@material-ui/core';
 
   
-export default class AddTodo extends React.Component {
+export default function AddTodo () {
 
-    state = {
-      item: '',
+
+    const [item, setItem] = useState("")
+
+    const handleChange = event  => {
+      setItem( event.target.value );
     }
 
-    handleChange = event  => {
-      this.setState({ item: event.target.value });
-    }
-
-    handleSubmit = (event) => {
-      const item = {
-        item: this.state.item
+    const handleSubmit = (event) => {
+      const newItem = {
+        "item": item
       }
     
       axios.post(`http://localhost:8000/todos`, {}, { params:
-        item,
+        newItem,
       })
       .then(res => res.status)
     }
 
-    render() {
 
-      return (
-      <form onSubmit={this.handleSubmit}>
-        <TextField
-            className="Todo-add"
-            label="Add a todo item"
-            fullWidth
-            margin="normal"
-            onChange={this.handleChange}
-            variant="outlined"
-          />
-      </form>
-      )
-    }
+
+    return (
+    <form onSubmit={handleSubmit}>
+      <TextField
+          className="Todo-add"
+          label="Add a todo item"
+          fullWidth
+          margin="normal"
+          onChange={handleChange}
+          variant="outlined"
+        />
+    </form>
+    )
 }

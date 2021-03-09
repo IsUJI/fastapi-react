@@ -1,38 +1,42 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { List, ListItem, ListItemText } from '@material-ui/core';
 
-export default class TodoList extends React.Component {
-    
-    state = {
-        todos: []
-    }
+const TodosContext = React.createContext({
+    todos: [], getTodos: () => {}
+})
 
+export default function TodoList () {
 
-    render() {
-
+    const [todos, setTodos] = useState([])
+    const getTodos = async () => {
         axios.get(`http://localhost:8000/todos`)
         .then(res => {
             const todos = res.data;
-            this.setState({ todos });
+            setTodos(todos);
         })
+    }
 
-        return (
+    useEffect( () => {
+        getTodos()
+    }, [])
+
+    return (
+        <TodosContext.Provider value={{todos, getTodos}}>
             <div>
-                { this.state.todos.map((todo) => (
+                { todos.map((todo) => (
                     <List component="nav">
-                        <ListItem button>
+                        <ListItem key={todo.id} button>
                             <ListItemText 
                                 primary={todo.item}
-                                // onClick={this.onSelected( int({todo.id}) )}   
                             />
                         </ListItem>
                     </List>
+                    
                 ))}
             </div>
-        
-        )
-
-    }
+        </TodosContext.Provider>
+    
+    )
 
 }
