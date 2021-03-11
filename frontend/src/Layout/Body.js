@@ -7,7 +7,7 @@ import { Grid, Paper } from '@material-ui/core'
 
 
 const styles = {
-	Paper: { padding: 20, margonTop: 10, marginBottom: 10, overflowY:'auto' },
+	Paper: { padding: 20, margonTop: 10, marginBottom: 10, overflowY:'auto', height: 700 },
 
 	Body: { margonTop: 80, marginBottom: 80, marginLeft: 80, marginRight: 80 }
 }

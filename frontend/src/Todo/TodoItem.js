@@ -1,8 +1,13 @@
 import React, { useContext, useEffect, useState } from 'react';
 import { IdContext } from '../Context'
 import axios from 'axios';
-import { Typography } from '@material-ui/core';
+import { Grid, Typography } from '@material-ui/core';
+import UpdateTodo from './UpdateTodo';
+import DeleteTodo from './DeleteTodo';
 
+const styles = {
+	Body: { margonTop: 80, marginBottom: 20, marginLeft: 80, marginRight: 80 }
+}
 
 export default function TodoItem () {
 
@@ -50,6 +55,17 @@ export default function TodoItem () {
 				<Typography variant="h5" gutterBottom>
 					{todo.item}
 				</Typography>
+				<br></br>
+				<div style={styles.Body}>
+					<Grid container>
+						<Grid item sm>
+								<UpdateTodo /> 
+						</Grid>
+						<Grid item sm>
+								<DeleteTodo />
+						</Grid>
+					</Grid>
+				</div>
 			</div>
 
 		);
