@@ -1,60 +1,59 @@
-import React from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { IdContext } from '../Context'
-// import axios from 'axios';
+import axios from 'axios';
+import { Typography } from '@material-ui/core';
 
 
 export default function TodoItem () {
 
-    const id = React.useContext(IdContext)
+	const {id} = useContext(IdContext);
+	const [todo, setTodo] = useState([]);
 
-    return (
-        <IdContext.Consumer>
-        <div>
-            <p>{id}</p>
-        </div>
-        </IdContext.Consumer>
-    );
+	const onSelected = async () => {
+		axios.get(`http://localhost:8000/todos/${id}`)
+		.then(res => {
+			setTodo(res.data);
+		})
+	}
 
-    // onSelected(id) {
-    //     const todo = {
-    //         todo: this.state.todo
-    //       }
+	useEffect( () => {
+		if(id !== 0){
+			onSelected();
+		}
+	}, [id]);
 
-    //     axios.get(`http://localhost:8000/todos/${this.state.todo.id}`)
-    //     .then(res => {
-    //         const todo = res.data;
-    //         this.setState({ todo });
-    //     })
-    // }
+	if ( id === 0 ) {
 
-    // render() {
-        
-    //     // this.setState({ selectedId: 1 });
-    //     const id = this.state.selectedId
+		return (
 
-    //     if ( id === 0 ) {
+			<div>
+				<Typography variant="h2" gutterBottom>
+					Welcome!
+				</Typography>
+				<br></br>
+				<Typography variant="h4" gutterBottom>
+					Select a TODO Item to see the details
+				</Typography>
+			</div>
 
-    //         return (
-    //             <div>
-    //                 <p>Select a TODO Item to see the details</p>
-    //             </div>
-    //         );
+		);
 
-    //     } else {
+	} else {
 
-    //         this.onSelected(id)
+		return (
 
-    //         return (
+			<div>
+				<Typography variant="h2" gutterBottom>
+					TODO #{id}
+				</Typography>
+				<br></br>
+				<Typography variant="h5" gutterBottom>
+					{todo.item}
+				</Typography>
+			</div>
 
-    //             <div>
-    //                 {todo}
-    //             </div>
+		);
 
-    //         );
+	}
 
-    //     }
-
-        
-                 
-    // }
 }

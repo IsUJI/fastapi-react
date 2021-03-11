@@ -4,11 +4,11 @@ import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 
   
-  export default () =>
-    <AppBar position="static">
-      <Toolbar>
-        <Typography variant="headline" color="inherit" style={{flex: 1}}>
-          TODOs
-        </Typography>
-      </Toolbar>
-    </AppBar>
+export default () =>
+  <AppBar position="static">
+    <Toolbar>
+      <Typography variant="headline" color="inherit" style={{flex: 1}}>
+        TODOs
+      </Typography>
+    </Toolbar>
+  </AppBar>
